@@ -11,5 +11,6 @@ Frontend (Vite) のビルドが必要であるため、GitHub Actions を利用�
 - GitHub リポジトリと連携可能であること
 
 ## タスク
-- [ ] `.github/workflows/deploy.yml` の作成
+- [x] `.github/workflows/deploy.yml` の作成
+- [ ] `.github/workflows/deploy.yml` 内の `project` 名を実際のプロジェクト名に合わせて修正
 - [ ] ユーザーへの設定手順（プロジェクト名、Secret）の案内

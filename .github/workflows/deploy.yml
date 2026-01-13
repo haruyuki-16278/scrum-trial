@@ -34,9 +34,7 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          # プロジェクトが GitHub リポジトリとリンクされている場合は project の指定は不要です。
-          # リンクされていない場合、または特定のプロジェクトにデプロイする場合は、
-          # 以下のように project 名を指定するか、Deno Deploy 側で設定を確認してください。
-          # project: "your-project-name" 
+          # 重要: Deno Deploy のプロジェクト名をここに指定してください
+          project: "scrum-trial" 
           entrypoint: "server.ts"
           root: "."
