@@ -47,3 +47,21 @@ AIエージェントは、コードの生成・修正を行う際、以下のル
     *   これは `.gitignore` によってGit管理対象外とするためです。
     *   例: `docs/_feature_implementation`
 *   逆に、成果物となる恒久的なドキュメント（仕様書など）を置くフォルダには `_` を付けないでください。
+
+## Gitコミットルール
+
+コミット時は、リポジトリルートにある `.gitmessage` テンプレートに従い、**Emoji Prefix** を使用した日本語のメッセージを記述してください。
+
+### フォーマット
+`<Emoji> :<emoji_name>: <Type>: <Subject>`
+
+### Emoji Prefix 一覧
+*   ✨ `:sparkles:` Feat: 新機能
+*   🐛 `:bug:` Fix: バグ修正
+*   🔄 `:recycle:` Refactor: リファクタリング
+*   💄 `:lipstick:` Style: UIやスタイルの変更
+*   📝 `:memo:` Docs: ドキュメントのみの変更
+*   ✅ `:white_check_mark:` Test: テストの追加・修正
+*   🛠️ `:wrench:` Chore: ビルドやツール設定の変更
+*   🚀 `:rocket:` Deploy: デプロイ関連
+*   ⚡ `:zap:` Perf: パフォーマンス改善

@@ -19,8 +19,8 @@ export function useYjsコラボレーション(docName: string, memberName: stri
     const { provider, ydoc } = useMemo(() => {
         const ydoc = new Y.Doc();
         // WebsocketProvider: (serverUrl, roomName, ydoc, options)
-        const wsBaseUrl = `ws://${window.location.hostname}:8001/yjs/`;
-
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsBaseUrl = `${protocol}//${window.location.host}/yjs/`;
         
         const provider = new WebsocketProvider(
             wsBaseUrl,

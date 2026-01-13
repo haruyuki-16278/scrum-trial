@@ -38,3 +38,4 @@ jobs:
           project: "scrum-trial" 
           entrypoint: "server.ts"
           root: "."
+          include: "frontend/dist"
