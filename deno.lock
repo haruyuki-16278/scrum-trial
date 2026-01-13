@@ -1,0 +1,40 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@hono/hono@4": "4.11.3"
+  },
+  "jsr": {
+    "@hono/hono@4.11.3": {
+      "integrity": "de7f245516a970c60c6f4bf5b0f1585efbee38ee4e01171994c2b9d69d035d70"
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@hono/hono@4"
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@eslint/js@^9.39.1",
+        "npm:@lexical/yjs@0.35.0",
+        "npm:@mdxeditor/editor@^3.52.3",
+        "npm:@types/canvas-confetti@^1.9.0",
+        "npm:@types/react-dom@^19.2.3",
+        "npm:@types/react@^19.2.5",
+        "npm:@types/textarea-caret@^3.0.4",
+        "npm:@uiw/react-md-editor@^4.0.11",
+        "npm:@vitejs/plugin-react@^5.1.1",
+        "npm:canvas-confetti@^1.9.4",
+        "npm:eslint-plugin-react-hooks@^7.0.1",
+        "npm:eslint-plugin-react-refresh@~0.4.24",
+        "npm:eslint@^9.39.1",
+        "npm:globals@^16.5.0",
+        "npm:react-dom@^19.2.0",
+        "npm:react@^19.2.0",
+        "npm:textarea-caret@^3.1.0",
+        "npm:vite@^7.2.4",
+        "npm:y-websocket@3",
+        "npm:yjs@^13.6.29"
+      ]
+    }
+  }
+}

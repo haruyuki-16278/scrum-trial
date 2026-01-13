@@ -1,0 +1,29 @@
+
+> frontend@0.0.0 build
+> vite build
+
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 786 modules transformed.
+✗ Build failed in 943ms
+error during build:
+src/lib/lexical-yjs-fork.ts (4:2): "$getNodeByKey" is not exported by "node_modules/@mdxeditor/editor/dist/index.js", imported by "src/lib/lexical-yjs-fork.ts".
+file: /Users/haruyuki/private/scrum-trial-app/frontend/src/lib/lexical-yjs-fork.ts:4:2
+
+2: // Forked from @lexical/yjs to solve Dual Package Hazard with @mdxeditor/editor
+3: import {
+4:   $getNodeByKey,
+     ^
+5:   $isLineBreakNode,
+6:   $isTextNode,
+
+    at getRollupError (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17022:16)
+    at Module.traceVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17478:29)
+    at ModuleScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:15141:39)
+    at ChildScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at ClassBodyScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at ChildScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at ChildScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at FunctionScope.findVariable (file:///Users/haruyuki/private/scrum-trial-app/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)

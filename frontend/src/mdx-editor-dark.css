@@ -1,0 +1,70 @@
+/* Dark Mode Overrides for MDXEditor */
+.dark-theme {
+  --mdx-editor-font-family: 'Inter', sans-serif;
+  --mdx-editor-font-size: 14px;
+}
+
+.dark-theme .mdx-editor-content {
+  color: #e5e7eb;
+  /* var(--text-main) */
+  background-color: transparent;
+  min-height: 100%;
+  padding: 1rem;
+}
+
+/* Headings */
+.dark-theme .mdx-editor-content h1,
+.dark-theme .mdx-editor-content h2,
+.dark-theme .mdx-editor-content h3,
+.dark-theme .mdx-editor-content h4,
+.dark-theme .mdx-editor-content h5,
+.dark-theme .mdx-editor-content h6 {
+  color: #fff;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+/* Lists */
+.dark-theme .mdx-editor-content ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+
+.dark-theme .mdx-editor-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+}
+
+/* Blockquotes */
+.dark-theme .mdx-editor-content blockquote {
+  border-left: 4px solid var(--primary);
+  margin-left: 0;
+  padding-left: 1em;
+  color: var(--text-dim);
+}
+
+/* Code */
+.dark-theme .mdx-editor-content code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* Links */
+.dark-theme .mdx-editor-content a {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+/* Paragraphs: Preserve soft breaks */
+.dark-theme .mdx-editor-content p {
+  white-space: pre-wrap;
+}
+
+/* Override editor wrapper */
+.mdx-editor {
+  background-color: transparent !important;
+  height: 100%;
+}
