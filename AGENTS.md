@@ -53,15 +53,15 @@ AIエージェントは、コードの生成・修正を行う際、以下のル
 コミット時は、リポジトリルートにある `.gitmessage` テンプレートに従い、**Emoji Prefix** を使用した日本語のメッセージを記述してください。
 
 ### フォーマット
-`<Emoji> :<emoji_name>: <Type>: <Subject>`
+`<Emoji> <Type>: <Subject>`
 
 ### Emoji Prefix 一覧
-*   ✨ `:sparkles:` Feat: 新機能
-*   🐛 `:bug:` Fix: バグ修正
-*   🔄 `:recycle:` Refactor: リファクタリング
-*   💄 `:lipstick:` Style: UIやスタイルの変更
-*   📝 `:memo:` Docs: ドキュメントのみの変更
-*   ✅ `:white_check_mark:` Test: テストの追加・修正
-*   🛠️ `:wrench:` Chore: ビルドやツール設定の変更
-*   🚀 `:rocket:` Deploy: デプロイ関連
-*   ⚡ `:zap:` Perf: パフォーマンス改善
+*   ✨ Feat: 新機能
+*   🐛 Fix: バグ修正
+*   🔄 Refactor: リファクタリング
+*   💄 Style: UIやスタイルの変更
+*   📝 Docs: ドキュメントのみの変更
+*   ✅ Test: テストの追加・修正
+*   🛠️ Chore: ビルドやツール設定の変更
+*   🚀 Deploy: デプロイ関連
+*   ⚡ Perf: パフォーマンス改善

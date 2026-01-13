@@ -1,13 +1,13 @@
 # <type>: <subject>
 #
-# ✨ :sparkles: Feat: 新機能
-# 🐛 :bug: Fix: バグ修正
-# 🔄 :recycle: Refactor: リファクタリング
-# 💄 :lipstick: Style: UIやスタイルの変更
-# 📝 :memo: Docs: ドキュメントのみの変更
-# ✅ :white_check_mark: Test: テストの追加・修正
-# 🛠️ :wrench: Chore: ビルドやツール設定の変更
-# 🚀 :rocket: Deploy: デプロイ関連
-# ⚡ :zap: Perf: パフォーマンス改善
+# ✨ Feat: 新機能
+# 🐛 Fix: バグ修正
+# 🔄 Refactor: リファクタリング
+# 💄 Style: UIやスタイルの変更
+# 📝 Docs: ドキュメントのみの変更
+# ✅ Test: テストの追加・修正
+# 🛠️ Chore: ビルドやツール設定の変更
+# 🚀 Deploy: デプロイ関連
+# ⚡ Perf: パフォーマンス改善
 #
 # 本文はここに記述してください（必要な場合）
