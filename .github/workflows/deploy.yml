@@ -38,4 +38,4 @@ jobs:
           project: "scrum-trial" 
           entrypoint: "server.ts"
           root: "."
-          include: "frontend/dist"
+          include: "server.ts,backend,deno.json,deno.lock,frontend/dist"
