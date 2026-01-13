@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "End-to-end tests for Scrum Trial App",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:prod": "BASE_URL=https://scrum-trial.deno.dev/ playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",

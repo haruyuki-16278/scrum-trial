@@ -9,9 +9,10 @@ interface チームパネルProps {
     メンバー一覧: User[];
     役職変更処理: (id: string, role: string) => void;
     読み取り専用: boolean;
+    processingUserId?: string | null;
 }
 
-export function チームパネル({ メンバー一覧, 役職変更処理, 読み取り専用 }: チームパネルProps) {
+export function チームパネル({ メンバー一覧, 役職変更処理, 読み取り専用, processingUserId = null }: チームパネルProps) {
     return (
             <div className="glass" style={{ borderRadius: '1rem', padding: '1rem', flex: 1, overflowY:'auto' }}>
                 <h3 style={{fontSize: '1rem'}}>Team</h3>
@@ -29,13 +30,17 @@ export function チームパネル({ メンバー一覧, 役職変更処理, 読
                                 userSelect: 'none'
                               }}
                               onClick={() => {
-                                if (読み取り専用) return;
+                                if (読み取り専用 || processingUserId) return;
                                 const nextVal = m.role === 'member' ? 'sm' : m.role === 'sm' ? 'po' : 'member';
                                 役職変更処理(m.id, nextVal);
                               }}
                               title="Click to change role"
                             >
-                                {m.role === 'sm' ? 'SM' : m.role === 'po' ? 'PO' : m.name.charAt(0).toUpperCase()}
+                                {processingUserId === m.id ? (
+                                    <span className="spinner" style={{ fontSize: '0.6em' }}></span>
+                                ) : (
+                                    m.role === 'sm' ? 'SM' : m.role === 'po' ? 'PO' : m.name.charAt(0).toUpperCase()
+                                )}
                             </div>
                             <div style={{ display:'flex', flexDirection:'column' }}>
                                 <span style={{fontSize:'0.9rem'}}>{m.name}</span>

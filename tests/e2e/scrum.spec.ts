@@ -67,10 +67,31 @@ test.describe('スクラム体験ゴールデンテスト', () => {
     });
   });
 
-  test.afterAll(async () => {
-    await コンテキストA?.close();
-    await コンテキストB?.close();
-    await コンテキストC?.close();
+  test.afterEach(async ({}, testInfo) => {
+    // コンテキストを閉じて動画を保存 (video.path() は close 後または close 前でも取得可能だが、close で保存が確定する)
+    await Promise.all([
+      コンテキストA?.close(),
+      コンテキストB?.close(),
+      コンテキストC?.close()
+    ]);
+
+    const 動画リスト = [
+      { page: ページA, name: 'ユーザーA (SM)' },
+      { page: ページB, name: 'ユーザーB (PO)' },
+      { page: ページC, name: 'ユーザーC (Dev)' }
+    ];
+
+    for (const item of 動画リスト) {
+      // ページが閉じても video オブジェクトが生きていれば取得できる
+      const video = item.page?.video();
+      if (video) {
+        // エラー等で動画が生成されていない場合を考慮して catch
+        const path = await video.path().catch(() => null);
+        if (path) {
+          await testInfo.attach(`${item.name} の操作動画`, { path, contentType: 'video/webm' });
+        }
+      }
+    }
   });
 
   test('スクラム全体サイクル: しりとりアプリシナリオ (3名体制)', async () => {
@@ -495,18 +516,6 @@ test.describe('スクラム体験ゴールデンテスト', () => {
     await コンテキストB.close();
     await コンテキストC.close();
 
-    // 動画添付
-    const 動画リスト = [
-        { page: ページA, name: 'ユーザーA (SM)' },
-        { page: ページB, name: 'ユーザーB (PO)' },
-        { page: ページC, name: 'ユーザーC (Dev)' }
-    ];
 
-    for (const item of 動画リスト) {
-        const path = await item.page.video()?.path();
-        if (path) {
-            await test.info().attach(`${item.name} の操作動画`, { path, contentType: 'video/webm' });
-        }
-    }
   });
 });

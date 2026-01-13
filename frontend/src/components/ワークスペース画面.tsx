@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { useスクラムセッション } from '../hooks/useスクラムセッション';
 import { ヘッダー } from './scrum/ヘッダー';
@@ -19,6 +19,50 @@ export function ワークスペース画面({ セッションID, メンバー名
   const [ダイス結果, ダイス結果設定] = useState<number | null>(null);
   const [ロール中, ロール中設定] = useState(false);
   
+  // Loading States
+  const [isAddingTask, setIsAddingTask] = useState(false);
+  const prevTaskCountRef = useRef(状態.tasks.length);
+  const [processingTask, setProcessingTask] = useState<{ id: string, targetStatus: string } | null>(null);
+  const [processingUser, setProcessingUser] = useState<{ id: string, targetRole: string } | null>(null);
+
+  // Effects to clear loading states
+  useEffect(() => {
+    // Task Add completion check
+    if (isAddingTask && 状態.tasks.length > prevTaskCountRef.current) {
+        setIsAddingTask(false);
+    }
+    prevTaskCountRef.current = 状態.tasks.length;
+
+    // Task Move completion check
+    if (processingTask) {
+        const task = 状態.tasks.find((t: any) => t.id === processingTask.id);
+        if (task && task.status === processingTask.targetStatus) {
+            setProcessingTask(null);
+        }
+    }
+
+    // Role Change completion check
+    if (processingUser) {
+        const member = 状態.members.find((m: any) => m.id === processingUser.id);
+        if (member && member.role === processingUser.targetRole) {
+            setProcessingUser(null);
+        }
+    }
+  }, [状態.tasks, 状態.members, isAddingTask, processingTask, processingUser]);
+
+  // Safety cleanup for stuck states (optional but good for UX)
+  useEffect(() => {
+    if (isAddingTask || processingTask || processingUser) {
+        const timer = setTimeout(() => {
+            if (isAddingTask) setIsAddingTask(false);
+            if (processingTask) setProcessingTask(null);
+            if (processingUser) setProcessingUser(null);
+        }, 5000); // 5s timeout
+        return () => clearTimeout(timer);
+    }
+  }, [isAddingTask, processingTask, processingUser]);
+
+  
   const { session } = 状態;
   const 読み取り専用 = session?.phase === 'finished';
 
@@ -35,6 +79,7 @@ export function ワークスペース画面({ セッションID, メンバー名
 
   // Handlers
   const PBL追加処理 = (title: string) => {
+    setIsAddingTask(true);
     タスク追加(title);
   };
 
@@ -71,11 +116,20 @@ export function ワークスペース画面({ セッションID, メンバー名
   };
 
   const タスク移動 = (task: any, destination: 'product' | 'sprint') => {
+      let targetStatus = 'todo';
       if (destination === 'sprint') {
+          targetStatus = 'doing';
           タスク更新({ ...task, status: 'doing', assigneeId: null });
       } else {
+          targetStatus = 'todo';
           タスク更新({ ...task, status: 'todo', assigneeId: null, progress: 0 });
       }
+      setProcessingTask({ id: task.id, targetStatus });
+  }; 
+  
+  const 役職変更ラッパー = (id: string, role: string) => {
+      setProcessingUser({ id, targetRole: role });
+      役職変更(id, role);
   };
 
     // Phase Change Effect
@@ -141,19 +195,22 @@ export function ワークスペース画面({ セッションID, メンバー名
             移動処理={タスク移動}
             並び替え処理={() => {}} // Not implemented
             読み取り専用={読み取り専用}
+            isAddingTask={isAddingTask}
+            processingTaskId={processingTask?.id}
          />
          
          <スプリントバックログ 
             タスク一覧={スプリントバックログタスク}
             メンバー一覧={状態.members}
             自身のメンバーID={自身のメンバーID}
-            タスク更新処理={タスク更新}
+            タスク更新処理={(t: any) => タスク更新(t)}
             移動処理={タスク移動}
             ロール処理={ロール処理}
             読み取り専用={読み取り専用}
-            作業済みフラグ={作業済みフラグ}
+            作業済みフラグ={!!作業済みフラグ}
             ロール中フラグ={ロール中}
-            ボーナス有効={session?.bonusAvailable}
+            ボーナス有効={session?.bonusAvailable ?? false}
+            processingTaskId={processingTask?.id}
          />
 
          <共有メモ 
@@ -167,16 +224,17 @@ export function ワークスペース画面({ セッションID, メンバー名
             <ダイスパネル 
                 ダイス結果={ダイス結果}
                 ロール中={ロール中}
-                フェーズ={session?.phase}
-                自身の役職={自身の役職}
-                作業済みフラグ={作業済みフラグ}
-                ボーナス有効={session?.bonusAvailable}
+                フェーズ={session?.phase || 'unknown'}
+                自身の役職={自身の役職 || 'member'}
+                作業済みフラグ={!!作業済みフラグ}
+                ボーナス有効={session?.bonusAvailable ?? false}
                 改善ロール処理={() => ロール処理()}
             />
             <チームパネル 
                 メンバー一覧={状態.members}
-                役職変更処理={役職変更}
+                役職変更処理={役職変更ラッパー}
                 読み取り専用={読み取り専用}
+                processingUserId={processingUser?.id}
             />
          </div>
       </div>

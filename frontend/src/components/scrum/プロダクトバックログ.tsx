@@ -15,9 +15,11 @@ interface プロダクトバックログProps {
     移動処理: (task: Task, dest: 'sprint') => void;
     並び替え処理: (task: Task, direction: 'up' | 'down') => void;
     読み取り専用: boolean;
+    isAddingTask?: boolean;
+    processingTaskId?: string | null;
 }
 
-export function プロダクトバックログ({ タスク一覧, 新規追加処理, 削除処理, 移動処理, 並び替え処理, 読み取り専用 }: プロダクトバックログProps) {
+export function プロダクトバックログ({ タスク一覧, 新規追加処理, 削除処理, 移動処理, 並び替え処理, 読み取り専用, isAddingTask = false, processingTaskId = null }: プロダクトバックログProps) {
     const [新規タイトル, 新規タイトル設定] = useState('');
 
     const 追加 = () => {
@@ -39,10 +41,19 @@ export function プロダクトバックログ({ タスク一覧, 新規追加�
                 placeholder="New Requirement..." 
                 value={新規タイトル}
                 onChange={e => 新規タイトル設定(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && 追加()}
-                disabled={読み取り専用}
+                onKeyDown={e => e.key === 'Enter' && !isAddingTask && 追加()}
+                disabled={読み取り専用 || isAddingTask}
               />
-              {!読み取り専用 && <button className="btn" style={{ padding: '0.4rem 0.8rem' }} onClick={追加}>+</button>}
+              {!読み取り専用 && (
+                <button 
+                    className="btn" 
+                    style={{ padding: '0.4rem 0.8rem', minWidth: '40px' }} 
+                    onClick={追加}
+                    disabled={isAddingTask}
+                >
+                    {isAddingTask ? <span className="spinner"></span> : '+'}
+                </button>
+              )}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', overflowY:'auto', flex: 1, minHeight: 0 }}>
             {タスク一覧.map((task) => (
@@ -57,7 +68,9 @@ export function プロダクトバックログ({ タスク一覧, 新規追加�
                     </div>
                     <div style={{ display:'flex', gap:'0.5rem' }}>
                         <button className="btn-secondary" style={{padding:'0.4rem 0.8rem', fontSize:'0.9rem', color:'#f87171', borderColor:'#f87171'}} onClick={() => 削除処理(task.id)}>×</button>
-                        <button className="btn" style={{padding:'0.4rem 0.8rem', fontSize:'0.9rem', background:'#6366f1'}} onClick={() => 移動処理(task, 'sprint')}>→ Sprint</button>
+                        <button className="btn" style={{padding:'0.4rem 0.8rem', fontSize:'0.9rem', background:'#6366f1', minWidth: '80px'}} onClick={() => 移動処理(task, 'sprint')} disabled={!!processingTaskId}>
+                            {processingTaskId === task.id ? <span className="spinner"></span> : '→ Sprint'}
+                        </button>
                     </div>
                     </>
                     )}

@@ -27,12 +27,14 @@ interface スプリントバックログProps {
     作業済みフラグ: boolean;
     ロール中フラグ: boolean;
     ボーナス有効: boolean;
+    processingTaskId?: string | null;
 }
 
 export function スプリントバックログ({ 
     タスク一覧, メンバー一覧, 自身のメンバーID, 
     タスク更新処理, 移動処理, ロール処理, 
-    読み取り専用, 作業済みフラグ, ロール中フラグ, ボーナス有効 
+    読み取り専用, 作業済みフラグ, ロール中フラグ, ボーナス有効,
+    processingTaskId = null
 }: スプリントバックログProps) {
 
   const 完了切替 = (task: Task) => {
@@ -76,7 +78,14 @@ export function スプリントバックログ({
                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                         {!読み取り専用 && (
                             <>
-                            <button className="btn-secondary" style={{padding:'0.4rem 0.8rem', fontSize:'0.8rem'}} onClick={() => 移動処理(task, 'product')}>← PBL</button>
+                            <button 
+                                className="btn-secondary" 
+                                style={{padding:'0.4rem 0.8rem', fontSize:'0.8rem', minWidth: '60px'}} 
+                                onClick={() => 移動処理(task, 'product')}
+                                disabled={!!processingTaskId}
+                            >
+                                {processingTaskId === task.id ? <span className="spinner"></span> : '← PBL'}
+                            </button>
 
                             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                                 {/* Task Action: Pick or Roll */}
