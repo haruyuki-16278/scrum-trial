@@ -1,0 +1,42 @@
+name: Deploy to Deno Deploy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for Deno Deploy OIDC authentication
+      contents: read  # Required to checkout the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          # プロジェクトが GitHub リポジトリとリンクされている場合は project の指定は不要です。
+          # リンクされていない場合、または特定のプロジェクトにデプロイする場合は、
+          # 以下のように project 名を指定するか、Deno Deploy 側で設定を確認してください。
+          # project: "your-project-name" 
+          entrypoint: "server.ts"
+          root: "."
