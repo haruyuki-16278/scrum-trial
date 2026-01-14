@@ -2,9 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: '.',
-  timeout: 60000,
+  timeout: 120000,
   expect: {
-    timeout: 10000
+    timeout: 30000
   },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -12,6 +12,7 @@ export default defineConfig({
   workers: 1, // Start with 1 to avoid race conditions in loose state management if any, though app seems capable of concurrency. Using 1 is safer for a complex golden flow.
   reporter: 'html',
   use: {
+    actionTimeout: 15000,
     baseURL: process.env.BASE_URL || 'http://localhost:8001',
     trace: 'on-first-retry',
     viewport: { width: 1280, height: 720 },

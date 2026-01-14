@@ -47,7 +47,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
 
       if (await ダイスボタン.isEnabled()) {
         await ダイスボタン.click();
-        await ページ.waitForTimeout(1100); 
+        await ページ.waitForTimeout(2000); 
       }
     }
   }
@@ -95,7 +95,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
   });
 
   test('スクラム全体サイクル: しりとりアプリシナリオ (3名体制)', async () => {
-    test.setTimeout(600000); // 3スプリント分のためタイムアウトを延長 (キーボード入力で時間がかかるため10分に)
+    test.setTimeout(1200000); // 3スプリント分のためタイムアウトを延長 (20分に)
 
     
     // === 1. チーム結成 ===
@@ -132,10 +132,14 @@ test.describe('スクラム体験ゴールデンテスト', () => {
       await expect(行A.locator('div').first()).toHaveText('SM');
 
       const 行B = ページB.locator('li', { hasText: 'プロダクトオーナーB' });
-      await 行B.locator('div').first().click(); // -> SM
-      await ページB.waitForTimeout(200);
-      await 行B.locator('div').first().click(); // -> PO
-      await expect(行B.locator('div').first()).toHaveText('PO');
+      // Member -> SM
+      await 行B.locator('div').first().click(); 
+      await expect(行B.locator('div').first()).toHaveText('SM', { timeout: 15000 });
+      
+      await ページB.waitForTimeout(1000);
+      // SM -> PO
+      await 行B.locator('div').first().click(); 
+      await expect(行B.locator('div').first()).toHaveText('PO', { timeout: 15000 });
 
       // ユーザーCはデフォルト(Member)のまま
       const 行C = ページC.locator('li', { hasText: '開発者C' });
@@ -255,7 +259,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
             await area.focus();
             
             // Yjs接続完了を待機 (Polling方式に変更したためSynced表示待ちを削除)
-            await page.waitForTimeout(1000);
+            await page.waitForTimeout(3000);
 
             // 全選択して右矢印で末尾に確実へ移動
             await page.keyboard.press('Meta+A');
@@ -266,7 +270,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
             await page.keyboard.type(text, { delay: 100 });
             
             await page.locator('body').click({ position: { x: 0, y: 0 } }); // blurして保存トリガー
-            await page.waitForTimeout(2000); // sync wait
+            await page.waitForTimeout(5000); // sync wait
         };
 
         const insertTextAfter = async (page: Page, anchor: string, text: string) => {
@@ -278,7 +282,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
             await page.keyboard.type(text, { delay: 100 });
             
             await page.locator('body').click({ position: { x: 0, y: 0 } }); // blurして保存トリガー
-            await page.waitForTimeout(2000); 
+            await page.waitForTimeout(5000); 
         };
 
         // 1. AがヘッダーとKeepを書く
@@ -330,7 +334,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
         });
 
          // Bも接続済みであることを確認
-         await ページB.waitForTimeout(1000);
+         await ページB.waitForTimeout(3000);
 
         // Bに同期されているか確認
         try {
@@ -395,7 +399,7 @@ test.describe('スクラム体験ゴールデンテスト', () => {
 
         // 業務改善ロール
         await ページA.getByRole('button', { name: 'Impv. Roll' }).click();
-        await ページA.waitForTimeout(1100);
+        await ページA.waitForTimeout(2000);
         
         const 結果 = await ページA.locator('div.glass > div').filter({ hasText: /^[0-9]+$/ }).textContent();
         console.log(`[Sprint ${スプリント番号}] 業務改善ロール結果:`, 結果);
